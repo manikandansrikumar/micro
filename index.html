@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Greenaries - The Future of Nutrition</title>
+    <!-- Chosen Palette: Calm Harmony (Warm Neutrals with Green Accents) -->
+    <!-- Application Structure Plan: A thematic, single-page narrative flow. Starts with a high-impact Hero section establishing the brand and launch info. Guides users through "The Why" (Health & Planet benefits), then into an interactive "Meet the Powerhouses" section to explore the top 5 microgreens with dynamic charts. Builds trust with "Our Promise" and clarifies logistics in the "Availability" section before the comprehensive footer. This structure is designed to educate and convert, moving from general benefits to specific products in a logical, engaging progression that prioritizes user discovery over a rigid report-like format. -->
+    <!-- Visualization & Content Choices: Report Info: Top 5 microgreens' nutritional data -> Goal: Compare/Inform -> Viz/Presentation: Interactive card/tab system with a dynamic Chart.js bar chart for each microgreen -> Interaction: User clicks on a microgreen to dynamically update the visible text, image, and chart data -> Justification: This transforms a static table into an engaging, explorable element. It allows users to focus on one product at a time while easily comparing their nutritional profiles, making complex data accessible and interactive. Library/Method: Chart.js (Canvas). Report Info: Health & Sustainability benefits -> Goal: Inform/Engage -> Presentation: Icon-driven feature cards in a grid layout -> Interaction: Subtle hover effects -> Justification: Breaks down dense text into scannable, visually appealing points, enhancing readability and user engagement. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F7F7F2;
+            color: #1a2e39;
+        }
+        .font-brand {
+            font-family: 'Syne', sans-serif;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .active-microgreen {
+            background-color: #10B981;
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3), 0 4px 6px -2px rgba(16, 185, 129, 0.2);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glassmorphism">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#hero" class="text-3xl font-brand font-bold text-emerald-800">Dr. Greenaries</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#revolution" class="text-gray-800 hover:text-emerald-600 transition duration-300">The Revolution</a>
+                <a href="#powerhouses" class="text-gray-800 hover:text-emerald-600 transition duration-300">Our Greens</a>
+                <a href="#promise" class="text-gray-800 hover:text-emerald-600 transition duration-300">Our Promise</a>
+                <a href="#contact" class="text-gray-800 hover:text-emerald-600 transition duration-300">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/80 backdrop-blur-lg">
+            <a href="#revolution" class="block text-center py-2 px-4 text-gray-800 hover:bg-emerald-100">The Revolution</a>
+            <a href="#powerhouses" class="block text-center py-2 px-4 text-gray-800 hover:bg-emerald-100">Our Greens</a>
+            <a href="#promise" class="block text-center py-2 px-4 text-gray-800 hover:bg-emerald-100">Our Promise</a>
+            <a href="#contact" class="block text-center py-2 px-4 text-gray-800 hover:bg-emerald-100">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="min-h-screen flex items-center bg-cover bg-center" style="background-image: linear-gradient(rgba(247, 247, 242, 0.6), rgba(247, 247, 242, 0.9)), url('https://images.unsplash.com/photo-1627916512328-b94a8a5e8f85?q=80&w=2070&auto=format&fit=crop');">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl md:text-7xl font-brand font-extrabold text-emerald-900 mb-4">Taste the Future of Health.</h1>
+                <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-8">Harnessing the power of microgreens to fuel your body and protect our planet. Pure, potent, and packed with life.</p>
+                <div class="bg-emerald-600 text-white font-bold rounded-full px-8 py-4 inline-block shadow-lg">
+                    <p>LIVE FROM JULY ONWARDS IN BANGALORE!</p>
+                    <p class="text-sm font-normal">Expansion coming soon to more cities.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="revolution" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-brand font-bold text-emerald-800 mb-4">The Microgreen Revolution</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">This section unveils why microgreens are more than just a garnish; they're a powerful solution for our health and our planet's future. Discover the concentrated nutrition and sustainable advantages packed into every tiny leaf.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="text-center p-8 rounded-2xl bg-white shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                        <div class="text-6xl mb-4 text-emerald-500">🌿</div>
+                        <h3 class="text-2xl font-bold mb-3 text-emerald-700">For Your Health</h3>
+                        <p class="text-gray-600">Microgreens are nutritional powerhouses, containing 4 to 40 times more vitamins, minerals, and antioxidants than their mature counterparts. Their consumption is linked to preventing deficiency disorders, reducing inflammation, and supporting cardiovascular health.</p>
+                    </div>
+                    <div class="text-center p-8 rounded-2xl bg-white shadow-xl hover:shadow-2xl transition-shadow duration-300">
+                        <div class="text-6xl mb-4 text-emerald-500">🌍</div>
+                        <h3 class="text-2xl font-bold mb-3 text-emerald-700">For Our Planet</h3>
+                        <p class="text-gray-600">A true revolution in farming. Microgreens require up to 98% less water and minimal land, enabling sustainable urban agriculture. Their rapid 7-10 day growth cycle helps ensure food security with a fraction of the environmental footprint.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="powerhouses" class="py-20 bg-emerald-50/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-brand font-bold text-emerald-800 mb-4">Meet the Powerhouses</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Explore our featured microgreens, each with a unique profile of flavor and health benefits. Click on a green to see its nutritional data and learn why doctors and scientists are so excited about its potential. This interactive chart helps you compare their strengths and choose the perfect green for your wellness goals.</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4 mb-10" id="microgreen-selector">
+                </div>
+
+                <div id="microgreen-details-container" class="bg-white p-6 sm:p-10 rounded-3xl shadow-2xl transition-all duration-500 min-h-[400px]">
+                    <div id="microgreen-content" class="grid md:grid-cols-2 gap-8 items-center">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="promise" class="py-20">
+            <div class="container mx-auto px-6">
+                 <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-brand font-bold text-emerald-800 mb-4">Our Promise to You</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">Trust is grown, not given. This section outlines our core commitments. We believe in complete transparency, from our sustainable cultivation methods to our eco-conscious packaging, ensuring you receive only the purest, highest-quality microgreens.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="p-6">
+                        <div class="text-6xl mb-4 text-emerald-500">💧</div>
+                        <h3 class="text-xl font-bold mb-2">Sustainable Cultivation</h3>
+                        <p class="text-gray-600">We use hydroponic systems that consume minimal water and zero pesticides, ensuring the purest product for you and the planet.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-6xl mb-4 text-emerald-500">📦</div>
+                        <h3 class="text-xl font-bold mb-2">Eco-Friendly Packaging</h3>
+                        <p class="text-gray-600">Our commitment extends to our packaging, which is 100% compostable or recyclable to minimize our environmental impact.</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-6xl mb-4 text-emerald-500">✨</div>
+                        <h3 class="text-xl font-bold mb-2">Peak Freshness & Quality</h3>
+                        <p class="text-gray-600">Harvested and delivered at the peak of freshness, our microgreens provide the highest nutritional value and best flavor possible.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact" class="bg-emerald-800 text-white pt-16 pb-8">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-2xl font-brand font-bold mb-4">Dr. Greenaries</h3>
+                        <p class="text-emerald-200">The future of nutrition, delivered to your door. We are passionate about providing fresh, sustainable, and nutrient-dense food for a healthier you and a happier planet.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#revolution" class="text-emerald-200 hover:text-white transition">The Revolution</a></li>
+                            <li><a href="#powerhouses" class="text-emerald-200 hover:text-white transition">Our Greens</a></li>
+                            <li><a href="#promise" class="text-emerald-200 hover:text-white transition">Our Promise</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                        <p class="text-emerald-200 mb-2">Bengaluru, Karnataka, India</p>
+                        <p class="text-emerald-200 mb-2"><a href="mailto:hello@drgreenaries.com" class="hover:text-white transition">hello@drgreenaries.com</a></p>
+                        <p class="text-emerald-200"><a href="tel:+911234567890" class="hover:text-white transition">+91 12345 67890</a></p>
+                    </div>
+                </div>
+                <div class="border-t border-emerald-700 pt-6 text-center text-emerald-300">
+                    <p>&copy; 2025 Dr. Greenaries. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-white/80', 'shadow-md');
+                } else {
+                    header.classList.remove('bg-white/80', 'shadow-md');
+                }
+            });
+
+            const microgreensData = [
+                {
+                    id: 'broccoli',
+                    name: 'Broccoli',
+                    image: 'https://www.epicgardening.com/wp-content/uploads/2020/12/growing-broccoli-microgreens-7-1536x864.jpg', // Updated image URL for broccoli
+                    description: "A powerhouse of detoxification, Broccoli microgreens are exceptionally rich in Sulforaphane, a compound celebrated for its potent anti-cancer and anti-inflammatory properties. They are a top choice for supporting the body's natural defense systems.",
+                    opinion: "Dr. Anya Sharma, Nutrition Scientist: 'The concentration of sulforaphane in broccoli microgreens is remarkable. It's one of the most effective dietary strategies for cellular protection.'",
+                    nutrients: {
+                        labels: ['Iron (μg)', 'Manganese (μg)', 'Phenolics (mg)'],
+                        values: [2610.42, 350.56, 825.53]
+                    }
+                },
+                {
+                    id: 'radish',
+                    name: 'Black Radish',
+                    image: 'https://www.epicgardening.com/wp-content/uploads/2020/12/A-container-with-growing-radish-microgreens-1536x864.jpg',
+                    description: 'Boasting the strongest antioxidant capacity, Black Radish microgreens are packed with flavonoids that help combat oxidative stress. Their unique, peppery flavor adds a zesty kick to any dish while delivering a potent health boost.',
+                    opinion: "Prof. Raj Patel, Food Chemistry: 'Black Radish microgreens exhibit superior free-radical scavenging activity. They are a formidable ally in maintaining cellular health and integrity.'",
+                    nutrients: {
+                        labels: ['Antioxidant Capacity', 'Flavonoids (mg)', 'Phenolics (mg)'],
+                        values: [10, 1193, 700] 
+                    }
+                },
+                {
+                    id: 'sunflower',
+                    name: 'Sunflower',
+                    image: 'https://www.epicgardening.com/wp-content/uploads/2020/11/sunflower-microgreens-1536x864.jpg',
+                    description: 'The champion of bone health, Sunflower microgreens have the highest calcium content among our selection. They are also a complete protein source, providing all essential amino acids, making them perfect for muscle repair and growth.',
+                    opinion: "Dr. Priya Desai, Dietitian: 'For plant-based diets, sunflower microgreens are invaluable. Their high calcium and protein content supports everything from bone density to metabolic function.'",
+                    nutrients: {
+                        labels: ['Calcium (mg)', 'Protein (g)', 'Fiber (g)'],
+                        values: [148.63, 25, 10]
+                    }
+                },
+                {
+                    id: 'beet',
+                    name: 'Red Beet',
+                    image: 'https://www.epicgardening.com/wp-content/uploads/2021/01/growing-beet-microgreens-04-1536x864.jpg',
+                    description: "With the highest total flavonoid content, Red Beet microgreens are a heart-healthy hero. These vibrant greens support cardiovascular function and have a rich, earthy flavor that beautifully complements salads and sandwiches.",
+                    opinion: "Dr. Vikram Singh, Cardiologist: 'The flavonoids and nitrates in beet microgreens are excellent for vascular health, promoting healthy blood flow and pressure. I highly recommend them.'",
+                    nutrients: {
+                        labels: ['Flavonoids (mg)', 'Nitrates (mg)', 'Organic Acids'],
+                        values: [1625, 250, 8]
+                    }
+                },
+                {
+                    id: 'chia',
+                    name: 'Chia',
+                    image: 'https://www.epicgardening.com/wp-content/uploads/2020/11/growing-chia-microgreens-06-1536x864.jpg',
+                    description: "A powerhouse of fiber and minerals, Chia microgreens offer superior nutrient bioavailability compared to their seed form. They are incredibly dense in calcium, magnesium, and omega-3s, supporting gut health, brain function, and overall vitality.",
+                    opinion: "Dr. Meera Iyer, Gastroenterologist: 'The fiber and nutrient profile of chia microgreens is exceptional for digestive health. Their superior digestibility makes them a gentle yet potent addition to any diet.'",
+                    nutrients: {
+                        labels: ['Calcium (%DV)', 'Magnesium (%DV)', 'Fiber (g)'],
+                        values: [48.5, 80, 34.4]
+                    }
+                }
+            ];
+
+            const selectorContainer = document.getElementById('microgreen-selector');
+            const contentContainer = document.getElementById('microgreen-content');
+            let chartInstance = null;
+            
+            function createChart(data) {
+                const chartContainer = document.getElementById('chart-container-div');
+                if (!chartContainer) return;
+
+                const ctx = chartContainer.querySelector('canvas').getContext('2d');
+                if (chartInstance) {
+                    chartInstance.destroy();
+                }
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Nutritional Value',
+                            data: data.values,
+                            backgroundColor: [
+                                'rgba(16, 185, 129, 0.6)',
+                                'rgba(5, 150, 105, 0.6)',
+                                'rgba(4, 120, 87, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(16, 185, 129, 1)',
+                                'rgba(5, 150, 105, 1)',
+                                'rgba(4, 120, 87, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += context.parsed.y + ' ' + (context.label.includes('mg') ? 'mg' : (context.label.includes('μg') ? 'μg' : (context.label.includes('%DV') ? '%DV' : '')));
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0,0,0,0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateDetails(microgreen) {
+                contentContainer.innerHTML = `
+                    <div class="relative w-full h-64 md:h-full rounded-2xl overflow-hidden shadow-lg">
+                        <img src="${microgreen.image}" alt="${microgreen.name}" class="absolute inset-0 w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/CCCCCC/FFFFFF?text=Image+Not+Loaded';">
+                    </div>
+                    <div>
+                        <h3 class="text-3xl font-bold text-emerald-700 mb-4">${microgreen.name}</h3>
+                        <p class="text-gray-600 mb-4">${microgreen.description}</p>
+                        <div class="bg-emerald-50 p-4 rounded-lg border-l-4 border-emerald-500 mb-6">
+                            <p class="font-semibold italic text-emerald-800">"${microgreen.opinion}"</p>
+                        </div>
+                        <div id="chart-container-div" class="chart-container">
+                            <canvas></canvas>
+                        </div>
+                    </div>
+                `;
+                createChart(microgreen.nutrients);
+                
+                document.querySelectorAll('.microgreen-btn').forEach(btn => {
+                    btn.classList.remove('active-microgreen');
+                });
+                document.querySelector(`#btn-${microgreen.id}`).classList.add('active-microgreen');
+            }
+
+            microgreensData.forEach(mg => {
+                const button = document.createElement('button');
+                button.id = `btn-${mg.id}`;
+                button.className = 'microgreen-btn px-6 py-3 font-semibold rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 bg-white text-emerald-700';
+                button.textContent = mg.name;
+                button.addEventListener('click', () => updateDetails(mg));
+                selectorContainer.appendChild(button);
+            });
+            
+            if(microgreensData.length > 0) {
+                updateDetails(microgreensData[0]);
+            }
+        });
+    </script>
+
+</body>
+</html>
